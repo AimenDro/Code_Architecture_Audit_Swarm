@@ -1,0 +1,20 @@
+{
+  "name": "code_architecture_audit_swarm",
+  "version": "1.0.0",
+  "description": "A GitHub App that automatically reviews Pull Requests using GPT-4o. When a developer opens or updates a PR, the bot fetches the diff, sends it to OpenAI, and posts inline review comments pointing out bugs, security issues, and bad practices — just like a senior engineer would.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/auth-app": "^8.2.0",
+    "@octokit/rest": "^22.0.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "openai": "^6.44.0"
+  }
+}
