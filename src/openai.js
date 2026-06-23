@@ -2,6 +2,7 @@ const OpenAI = require("openai");
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// System prompt that instructs GPT how to review code and what format to return
 const SYSTEM_PROMPT = `You are an expert senior software engineer performing a pull request code review.
 
 Analyze the provided code diff and identify real issues only. Focus on:
@@ -23,7 +24,8 @@ If you find no real issues, return an empty array: []`;
 async function getAIReview(diff) {
   const response = await openai.chat.completions.create({
     model: "gpt-4o",
-    temperature: 0.2, // low temperature = consistent, focused output
+    temperature: 0.2, // low temperature = consistent, focused, deterministic output
+    max_tokens: 2000, // limit response size to avoid large token usage
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
       {
@@ -41,8 +43,9 @@ async function getAIReview(diff) {
   let comments;
   try {
     comments = JSON.parse(cleaned);
-  } catch {
+  } catch (parseErr) {
     console.error("Failed to parse AI response as JSON:", cleaned);
+    console.error("Parse error:", parseErr.message);
     return [];
   }
 
